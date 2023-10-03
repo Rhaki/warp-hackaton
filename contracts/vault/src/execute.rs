@@ -1,8 +1,11 @@
-use std::{cmp::min, collections::HashMap};
+use std::collections::HashMap;
 
-use astroport::{asset::Asset, factory::Config};
-use cosmwasm_std::{to_binary, Coin, Decimal, DepsMut, MessageInfo, Response, Uint128, WasmMsg, StdError};
-use rhaki_cw_plus::{math::IntoDecimal, wasm::{WasmMsgBuilder, CosmosMsgBuilder}};
+use astroport::asset::Asset;
+use cosmwasm_std::{Coin, Decimal, DepsMut, MessageInfo, Response, StdError, Uint128, WasmMsg};
+use rhaki_cw_plus::{
+    math::IntoDecimal,
+    wasm::{CosmosMsgBuilder, WasmMsgBuilder},
+};
 
 use crate::{
     definitons::UserPosition,
@@ -62,7 +65,7 @@ pub fn run_trigger(deps: DepsMut, msg: TriggerMsg) -> ContractResponse {
     let config = CONFIG.load(deps.storage)?;
     let info = POSITIONS().load(deps.storage, msg.id)?;
 
-    let price = astroport_price(deps.as_ref())?;
+    let _price = astroport_price(deps.as_ref())?;
 
     let current_price = Decimal::from_ratio(info.base_amount, info.quote_amount);
 
@@ -119,7 +122,9 @@ pub fn run_trigger(deps: DepsMut, msg: TriggerMsg) -> ContractResponse {
             },
             vec![Coin::new(amount.u128(), config.base_denom)],
         )
-    } else {Err(StdError::generic_err("no price valide"))};
+    } else {
+        Err(StdError::generic_err("no price valide"))
+    };
 
     Ok(Response::new().add_message(msg?.into_cosmos_msg()))
 }

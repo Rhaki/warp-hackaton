@@ -1,10 +1,10 @@
 pub mod contract;
-pub mod msg;
 pub mod definitons;
-mod state;
-mod response;
 mod execute;
+pub mod msg;
 mod querier;
+mod response;
+mod state;
 
 #[cfg(test)]
 mod tests;

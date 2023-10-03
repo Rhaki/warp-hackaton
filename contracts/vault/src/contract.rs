@@ -1,12 +1,15 @@
-use cosmwasm_std::{entry_point, Binary, Deps, DepsMut, Env, MessageInfo, Response, StdResult, SubMsg};
-use cw2::set_contract_version;
+use cosmwasm_std::{
+    entry_point, Binary, Deps, DepsMut, Env, MessageInfo, Response, StdResult,
+};
+
 use rhaki_cw_plus::traits::IntoAddr;
 
 use crate::{
     definitons::Config,
+    execute::{run_create_position, run_trigger},
     msg::{ExecuteMsg, InstantiateMsg, QueryMsg},
     response::ContractResponse,
-    state::CONFIG, execute::{run_create_position, run_trigger},
+    state::CONFIG,
 };
 
 #[cfg_attr(not(feature = "library"), entry_point)]
@@ -27,23 +30,14 @@ pub fn instantiate(
     )?;
 
     Ok(Response::new())
-
-
 }
 
 #[cfg_attr(not(feature = "library"), entry_point)]
-pub fn execute(
-    deps: DepsMut,
-    _env: Env,
-    info: MessageInfo,
-    msg: ExecuteMsg,
-) -> ContractResponse {
-
+pub fn execute(deps: DepsMut, _env: Env, info: MessageInfo, msg: ExecuteMsg) -> ContractResponse {
     match msg {
-    ExecuteMsg::CreatePosition(msg) => run_create_position(deps, info, msg),
-    ExecuteMsg::Trigger(msg) => run_trigger(deps, msg)
-
-}
+        ExecuteMsg::CreatePosition(msg) => run_create_position(deps, info, msg),
+        ExecuteMsg::Trigger(msg) => run_trigger(deps, msg),
+    }
 }
 
 #[cfg_attr(not(feature = "library"), entry_point)]

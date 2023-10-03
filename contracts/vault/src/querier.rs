@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use astroport::{asset::AssetInfo, factory::PairsResponse, pair::PoolResponse};
+use astroport::{asset::AssetInfo, pair::PoolResponse};
 use cosmwasm_std::{Decimal, Deps, StdResult, Uint128};
 
 use crate::state::CONFIG;
